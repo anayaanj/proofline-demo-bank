@@ -1,0 +1,13 @@
+{
+  "pts0": 600,
+  "odds0": 0.052631578947368418,
+  "odds_definition": "bad:good",
+  "pdo": 50,
+  "factor": 72.134752044448177,
+  "offset": 387.60362432782068,
+  "score_formula": "round(pts0 - pdo / log(2) * (log(pd / (1 - pd)) - log(odds0)))",
+  "rounding": "R round(), halves to even",
+  "cutoff": 450,
+  "decision_rule": "ACCEPT if score >= cutoff, else DECLINE",
+  "overrides": []
+}

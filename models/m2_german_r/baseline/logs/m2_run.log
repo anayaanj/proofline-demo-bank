@@ -1,0 +1,32 @@
+R version 4.6.1 (2026-06-24) 
+applications read: 1000 
+
+Call:
+glm(formula = as.formula(paste("bad ~", paste0("w_", vars, collapse = " + "))), 
+    family = binomial(), data = dev)
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  -0.8803     0.1142  -7.706 1.30e-14 ***
+w_stat_b      0.9341     0.1482   6.303 2.91e-10 ***
+w_dur_b       0.9349     0.2743   3.409 0.000652 ***
+w_hist_b      0.8393     0.2733   3.071 0.002134 ** 
+w_purp_b      1.2411     0.2929   4.237 2.27e-05 ***
+w_amt_b       0.8771     0.3212   2.731 0.006313 ** 
+w_sav_b       1.1785     0.2934   4.016 5.91e-05 ***
+w_emp_b       0.8164     0.5052   1.616 0.106091    
+w_age_b       0.7399     0.4246   1.743 0.081383 .  
+w_fw_b        1.4515     0.7714   1.882 0.059881 .  
+w_std_b       1.1308     0.1054  10.731  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 855.21  on 699  degrees of freedom
+Residual deviance: 517.04  on 689  degrees of freedom
+AIC: 539.04
+
+Number of Fisher Scoring iterations: 5
+
+scored: 1000  accepted: 642 

@@ -1,0 +1,27 @@
+column,type,meaning,allowed_values
+app_id,integer,Application identifier (sequence number),1-1000
+laufkont,integer,Status of the applicant's checking account with the bank,1 = no checking account; 2 = balance < 0 DM; 3 = 0 <= balance < 200 DM; 4 = balance >= 200 DM or salary paid in for at least 1 year
+laufzeit,integer,Credit duration in months,4-72
+moral,integer,Credit history,0 = delay in paying off in the past; 1 = critical account / other credits elsewhere; 2 = no credits taken / all credits paid back duly; 3 = existing credits paid back duly till now; 4 = all credits at this bank paid back duly
+verw,integer,Purpose of the credit,0 = others; 1 = car (new); 2 = car (used); 3 = furniture/equipment; 4 = radio/television; 5 = domestic appliances; 6 = repairs; 7 = education; 8 = vacation; 9 = retraining; 10 = business
+hoehe,integer,Credit amount in DM,250-18424
+sparkont,integer,Savings account / securities balance,1 = unknown / no savings account; 2 = < 100 DM; 3 = 100 <= ... < 500 DM; 4 = 500 <= ... < 1000 DM; 5 = >= 1000 DM
+beszeit,integer,Length of present employment,1 = unemployed; 2 = < 1 yr; 3 = 1 <= ... < 4 yrs; 4 = 4 <= ... < 7 yrs; 5 = >= 7 yrs
+rate,integer,Instalment rate as a percentage of disposable income (banded),1 = >= 35; 2 = 25 <= ... < 35; 3 = 20 <= ... < 25; 4 = < 20
+famges,integer,"Personal status and sex, as one combined code (sex is only partly recoverable)",1 = male: divorced/separated; 2 = female: non-single or male: single; 3 = male: married/widowed; 4 = female: single
+buerge,integer,Other debtors or guarantors,1 = none; 2 = co-applicant; 3 = guarantor
+wohnzeit,integer,Length of time at the present residence,1 = < 1 yr; 2 = 1 <= ... < 4 yrs; 3 = 4 <= ... < 7 yrs; 4 = >= 7 yrs
+verm,integer,Most valuable property,1 = unknown / no property; 2 = car or other; 3 = building society savings agreement / life insurance; 4 = real estate
+alter,integer,Age of the applicant in years,19-75
+weitkred,integer,Other instalment plans,1 = bank; 2 = stores; 3 = none
+wohn,integer,Housing,1 = for free; 2 = rent; 3 = own
+bishkred,integer,"Number of credits at this bank, including the current one",1 = 1; 2 = 2-3; 3 = 4-5; 4 = >= 6
+beruf,integer,Job,1 = unemployed/unskilled - non-resident; 2 = unskilled - resident; 3 = skilled employee/official; 4 = manager/self-employed/highly qualified employee
+pers,integer,Number of people financially dependent on the applicant,1 = 3 or more; 2 = 0 to 2
+telef,integer,Telephone registered under the customer's name,1 = no; 2 = yes
+gastarb,integer,Foreign worker,1 = yes; 2 = no
+kredit,integer,Credit outcome as recorded in the source system,0 = bad; 1 = good
+bad,integer,Model target: 1 - kredit,0 = good; 1 = bad
+app_month,string,Application month,"YYYY-MM, 1973-01 to 1975-12"
+stund,integer,Payment deferral (Stundung) granted during the credit term; recorded by the loan servicing system,0 = no; 1 = yes
+split,string,Development sample flag,DEV; HOLDOUT

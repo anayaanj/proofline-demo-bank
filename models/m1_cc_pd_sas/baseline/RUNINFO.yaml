@@ -1,0 +1,36 @@
+model_id: m1
+status: provisional baseline from the R twin until the SAS ODA run (D-022)
+engine: R 4.6.1 emulation of m1_pd_scorecard.sas
+engine_version: R version 4.6.1 (2026-06-24)
+generated_by: scripts/baselines/m1_twin.R
+run_at: '2026-11-05T03:05:08Z'
+frozen_at: '2026-11-05T03:13:13Z'
+run_by: Proofline build agent (Claude Code), for the parity engineer
+inputs:
+- path: data/prepared/m1_taiwan_prepared.csv
+  sha256: a97ac03f858d8d790927dd31c019ee04d391c5a6ee3d617501f348be5a1ae5b2
+  rows: 30000
+code:
+- path: legacy_models/m1_cc_pd_sas/code/m1_pd_scorecard.sas
+  sha256: b2ded6fdd4638cd2931e45421f06000bb0bf7fa727dbb3cf05f6df1a44e674ae
+- path: legacy_models/m1_cc_pd_sas/code/m1_woe_bins.sas
+  sha256: 135d98139f30a9905b063f0468ae209b42dcf5f39a04f6fe6388e1c0f32cf077
+- path: scripts/baselines/m1_twin.R
+  sha256: 36a356ef451b058dd026b567e4c50a0465a15388200a0624e3d1c9fe6304f8b4
+engine_outputs:
+- coefficients.csv
+- ifrs9_pd_feed.csv
+- logs/m1_twin_run.log
+- score_bands.csv
+- scored.csv
+author_files:
+- bins.csv
+- scaling.json
+rows:
+  scored: 30000
+  DEV: 18000
+  HOLDOUT: 6000
+  OOT: 6000
+coefficients: 13
+export_precision: 17 significant digits (sprintf %.17g)
+attribution: Parity is against an R emulation of the SAS program; the SAS run is pending (D-022).

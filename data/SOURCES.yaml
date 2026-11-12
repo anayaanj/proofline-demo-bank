@@ -1,0 +1,113 @@
+# data/SOURCES.yaml: registry of public source datasets and prepared samples (spec 02 §1, §5, §6).
+#
+# data/get_data.py reads this file.
+#   sources:   raw downloads. Each is saved to data/raw/<id>/ (git-ignored) and checked against its pinned
+#              SHA-256; a mismatch stops the run ("source changed, investigate before use").
+#   prepared:  one entry per model key. get_data.py runs `python <script> <inputs...> <output>` and checks the
+#              output against its pinned SHA-256. Files under data/prepared/ are committed: they are the
+#              sample of record (NumPy does not promise identical random streams across versions).
+#
+# Other models add their own entries under `sources:` and `prepared:` with the same fields.
+
+schema_version: 1
+
+sources:
+  uci_350:
+    title: Default of Credit Card Clients
+    url: https://archive.ics.uci.edu/static/public/350/data.csv
+    sha256: 45bcf4df62ff2e237a74eb155cabfb4bbbc171219a0637daef44fdad07503dd0
+    landing_page: https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients
+    doi: 10.24432/C55S3H
+    licence: CC-BY-4.0
+    licence_url: https://creativecommons.org/licenses/by/4.0/
+    citation: >-
+      Yeh, I. (2009). Default of Credit Card Clients [Dataset]. UCI Machine Learning Repository.
+      https://doi.org/10.24432/C55S3H
+    shape: [30000, 25]           # ID, X1..X23, Y
+    columns_note: UCI names the columns X1..X23 and Y; prepare_m1.py renames them (there is no PAY_1).
+    used_by: [m1]
+
+  # uci_573 (M2) and openml_1597 (M3): the M2/M3 owner adds url, sha256, licence and citation here.
+  uci_573:
+    title: South German Credit (UPDATE)
+    url: https://archive.ics.uci.edu/static/public/573/south+german+credit+update.zip
+    sha256: 0b40d40eb7321693d559e247a556f88a6cc8df8489c3cb2ae084db7592584551
+    landing_page: https://archive.ics.uci.edu/dataset/573/south+german+credit+update
+    doi: 10.24432/C5QG88
+    licence: CC-BY-4.0
+    licence_url: https://creativecommons.org/licenses/by/4.0/
+    citation: >-
+      South German Credit (UPDATE) [Dataset] (2020). UCI Machine Learning Repository. https://doi.org/10.24432/C5QG88.
+      Background: Groemping, U. (2019). South German Credit Data: Correcting a Widely Used Data Set. Report 4/2019,
+      Beuth University of Applied Sciences Berlin.
+    shape: [1000, 21]
+    files: [SouthGermanCredit.asc, codetable.txt, read_SouthGermanCredit.R]
+    columns_note: ucimlrepo fails on 573 ("not available for import"), so use the zip. Sex is only partly recoverable from famges (D-023).
+    used_by: [m2]
+  openml_1597:
+    title: Credit Card Fraud Detection (ULB Machine Learning Group and Worldline), OpenML mirror
+    url: https://data.openml.org/datasets/0000/1597/dataset_1597.pq
+    sha256: b7efcb35a428bbe22347a05d2437d9177bab07ce61e51214a17bec584ad9496d
+    landing_page: https://www.openml.org/d/1597
+    upstream: https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud
+    licence: ODbL-1.0 (database) + DbCL-1.0 (contents)
+    licence_url: https://opendatacommons.org/licenses/odbl/1-0/
+    citation: >-
+      Dal Pozzolo, A., Caelen, O., Johnson, R. A. and Bontempi, G. (2015). Calibrating Probability with
+      Undersampling for Unbalanced Classification. IEEE Symposium Series on Computational Intelligence (SSCI).
+    shape: [284807, 31]
+    columns_note: >-
+      fetch_openml(1597) drops Time (OpenML row-id attribute), so use the parquet. Class is stored as strings '0'/'1'.
+      1,081 exact duplicate rows and 1,825 zero amounts (real, not planted).
+    used_by: [m3]
+
+
+prepared:
+  m1:
+    script: data/prepare_m1.py
+    sources: [uci_350]
+    inputs: [data/raw/uci_350/data.csv]
+    output: data/prepared/m1_taiwan_prepared.csv
+    sha256: a97ac03f858d8d790927dd31c019ee04d391c5a6ee3d617501f348be5a1ae5b2
+    rows: 30000
+    committed: true             # CC BY 4.0 permits redistribution with attribution
+    verified_with: {numpy: 2.5.4, pandas: 3.1.1}
+    synthetic_augmentation:     # disclosed in the M1 README and the RAI note (spec 02 §6)
+      - "SPLIT=OOT: 6,000 rows drawn with probability proportional to exp(0.6*s), a covariate shift (seed 42)"
+      - "SPLIT=HOLDOUT: 25% stratified sample of the remaining rows (seed 42)"
+      - "OBS_MONTH: 2004-07..2005-06 for DEV/HOLDOUT, 2005-07..2005-09 for OOT (seed 43)"
+
+  # m2, m3, m3_sample: added by the M2/M3 owner.
+  m2:
+    script: data/prepare_m2.py
+    sources: [uci_573]
+    inputs: [data/raw/uci_573/SouthGermanCredit.asc]
+    output: data/prepared/m2_south_german_prepared.csv
+    sha256: c30ea5742cb2741ffb38a585cb9929614719b5dc2bbd1927811f677a05f6c872
+    rows: 1000
+    committed: true             # CC BY 4.0 permits redistribution with attribution
+    verified_with: {numpy: 2.5.4, pandas: 3.1.1}
+    synthetic_augmentation:     # disclose in the repo README and the RAI note (spec 02 §6); not in the agent-visible model README
+      - "app_id: sequence 1..1000 (derived)"
+      - "bad = 1 - kredit (derived)"
+      - "app_month: uniform over 1973-01..1975-12 (seed 42)"
+      - "stund: synthetic servicing-system deferral flag, P = 0.55 for bad / 0.07 for good (seed 42) - the planted leak M2-L1"
+      - "split: DEV/HOLDOUT 70/30 stratified on bad (seed 42)"
+  m3:
+    script: data/prepare_m3.py
+    sources: [openml_1597]
+    inputs: [data/raw/openml_1597/dataset_1597.pq]
+    output: data/interim/m3_ulb_fraud.parquet   # byte-identical copy of the verified source
+    sha256: b7efcb35a428bbe22347a05d2437d9177bab07ce61e51214a17bec584ad9496d
+    rows: 284807
+    committed: false            # ODbL share-alike and 73 MB
+    synthetic_augmentation: []  # real time split
+  m3_sample:
+    script: data/prepare_m3.py  # output type follows the suffix: .csv = sample, .parquet = full copy
+    sources: [openml_1597]
+    inputs: [data/raw/openml_1597/dataset_1597.pq]
+    output: data/prepared/m3_fraud_sample.csv
+    sha256: 55361d31ee4a7f41253e0365a4be5e0ccf4f3538fd8d2db8119a558de8c7574d
+    rows: 5000                  # all 492 frauds + 4,508 non-frauds, seed 42, source order
+    committed: true             # derivative database: ODbL 1.0 share-alike + attribution apply
+    verified_with: {numpy: 2.5.4, pandas: 3.1.1}

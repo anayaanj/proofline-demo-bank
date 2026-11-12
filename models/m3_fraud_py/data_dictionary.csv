@@ -1,0 +1,32 @@
+column,type,meaning,allowed_values
+Time,float,"Seconds elapsed between this transaction and the first transaction in the extract (two days, September 2013)",0-172792
+V1,float,Principal component 1 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V2,float,Principal component 2 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V3,float,Principal component 3 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V4,float,Principal component 4 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V5,float,Principal component 5 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V6,float,Principal component 6 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V7,float,Principal component 7 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V8,float,Principal component 8 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V9,float,Principal component 9 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V10,float,Principal component 10 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V11,float,Principal component 11 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V12,float,Principal component 12 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V13,float,Principal component 13 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V14,float,Principal component 14 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V15,float,Principal component 15 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V16,float,Principal component 16 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V17,float,Principal component 17 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V18,float,Principal component 18 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V19,float,Principal component 19 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V20,float,Principal component 20 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V21,float,Principal component 21 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V22,float,Principal component 22 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V23,float,Principal component 23 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V24,float,Principal component 24 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V25,float,Principal component 25 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V26,float,Principal component 26 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V27,float,Principal component 27 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+V28,float,Principal component 28 of the confidential transaction features (PCA transform applied by the data provider; the original features are not available),real number
+Amount,float,Transaction amount (currency not stated by the data provider),>= 0
+Class,category,Fraud label; stored as the text '0'/'1' in the parquet and as integers in the CSV sample,0 = genuine; 1 = fraud

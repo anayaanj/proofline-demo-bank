@@ -1,0 +1,64 @@
+{
+  "model_id": "m1",
+  "source": "code/m1_pd_scorecard.sas: %let constants and the DATA SCORED step",
+  "base_score": 600,
+  "base_odds": 50,
+  "odds_definition": "good:bad",
+  "pdo": 20,
+  "factor": 28.8539,
+  "offset": 487.1229,
+  "factor_definition": "pdo / ln(2) = 28.85390081777927; implemented rounded to 4 dp",
+  "offset_definition": "base_score - factor * ln(base_odds) = 487.1228762045055; implemented rounded to 4 dp",
+  "score_formula": "SCORE = ROUND(OFFSET + FACTOR * LOG((1 - PD_ADJ) / PD_ADJ), 1)",
+  "rounding": "SAS ROUND to the nearest integer; halves are rounded away from zero",
+  "pma": {
+    "factor": 1.15,
+    "cap": 0.9999,
+    "formula": "PD_ADJ = MIN(PD * PMA_F, 0.9999)"
+  },
+  "cutoff": 520,
+  "cutoff_operator": ">=",
+  "decision_positive": "APPROVE",
+  "decision_negative": "DECLINE",
+  "overrides": [
+    {
+      "code": "P01",
+      "order": 1,
+      "condition": "UTIL_M1 >= 1 and DECISION = 'APPROVE'",
+      "set_decision": "DECLINE"
+    },
+    {
+      "code": "V01",
+      "order": 2,
+      "condition": "LIMIT_BAL >= 500000 and DECISION = 'DECLINE' and DLQ_CUR < 2 and SCORE >= CUTOFF - 15",
+      "set_decision": "APPROVE"
+    }
+  ],
+  "band_rule": "first band in this list whose min_score <= SCORE; F otherwise",
+  "bands": [
+    {
+      "band": "A",
+      "min_score": 560
+    },
+    {
+      "band": "B",
+      "min_score": 540
+    },
+    {
+      "band": "C",
+      "min_score": 520
+    },
+    {
+      "band": "D",
+      "min_score": 500
+    },
+    {
+      "band": "E",
+      "min_score": 480
+    },
+    {
+      "band": "F",
+      "min_score": null
+    }
+  ]
+}

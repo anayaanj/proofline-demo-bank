@@ -1,0 +1,37 @@
+schema_version: 1
+id: m3
+inventory_id: FR-TXN-0003
+name: Card transaction fraud score
+provenance: {origin: team_authored, dataset: openml_1597, licence: ODbL-1.0 + DbCL-1.0}
+ingest:                                   # trusted technical facts; confirmed by a human at Gate 1
+  language: python
+  entrypoint: code/fraud_model_v3.py
+  code_files: [code/fraud_model_v3.py]
+  run: {engine: python, mode: auto}       # python code/fraud_model_v3.py <data> <out_dir>
+  data:
+    - {role: model_input, path: data/interim/m3_ulb_fraud.parquet, rows: 284807,
+       sha256: b7efcb35a428bbe22347a05d2437d9177bab07ce61e51214a17bec584ad9496d}   # git-ignored: data/prepare_m3.py
+    - {role: test_sample, path: data/prepared/m3_fraud_sample.csv, rows: 5000,
+       sha256: 55361d31ee4a7f41253e0365a4be5e0ccf4f3538fd8d2db8119a558de8c7574d}   # all frauds + 4,508 others
+  data_dictionary: data_dictionary.csv
+  keys: {time: Time}                      # the code derives row_id and split (DEV/VAL/OOT) from row order and Time
+  target: {column: Class, event_value: 1, label: confirmed fraudulent transaction}
+  docs: [docs/legacy_model_doc.md]
+  baseline:
+    dir: baseline
+    digest: 5838cd3936ec5bd7763c29f572b90385a1b789f362e0f5a5ffdff38daa9866b1   # sha256 of baseline/SHA256SUMS
+    files: {scored: scored.csv, params: model_params.json}       # scored.csv is regenerated, not committed
+    columns: {id: row_id, split: split, p_event: score, p_event_final: score, decision: alert,
+              override: alert_reason}
+    decision_positive: '1'
+fairness:
+  protected: {}                           # the source data holds no protected characteristics
+  min_cell: 20
+claimed:                                  # copied from the old inventory: UNTRUSTED, may be stale
+  owner: M. Byrne, Fraud Analytics
+  intended_use: Alerting of suspicious card transactions for analyst review
+  model_type: Logistic regression
+  tier: 2
+  status: production
+  last_validated: 2021-10-29
+  next_review: 2022-10-31

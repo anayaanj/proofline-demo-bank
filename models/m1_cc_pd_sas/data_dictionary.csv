@@ -1,0 +1,28 @@
+column,type,meaning,allowed_values
+ID,integer,Account sequence number in the development file; not a customer identifier,1 to 30000
+LIMIT_BAL,integer,Credit limit in NT dollars (individual and supplementary cards),10000 to 1000000
+SEX,integer,Sex of the primary cardholder. Protected characteristic (Equality Act 2010),1 = male; 2 = female
+EDUCATION,integer,Education level of the primary cardholder,"1 = graduate school; 2 = university; 3 = high school; 4 = other; 0, 5, 6 = not defined by the data source"
+MARRIAGE,integer,Marital status of the primary cardholder,1 = married; 2 = single; 3 = other; 0 = not defined by the data source
+AGE,integer,Age of the primary cardholder in years. Protected characteristic (Equality Act 2010),21 to 79
+PAY_0,integer,Repayment status in the most recent month (t-1),"-2 = no balance to repay (no use); -1 = paid in full; 0 = revolving credit, minimum paid; 1 to 9 = months of payment delay. Codes -2 and 0 are not defined by the data source; these readings are the business convention"
+PAY_2,integer,Repayment status in month t-2 (there is no PAY_1),Same codes as PAY_0
+PAY_3,integer,Repayment status in month t-3 (there is no PAY_1),Same codes as PAY_0
+PAY_4,integer,Repayment status in month t-4 (there is no PAY_1),Same codes as PAY_0
+PAY_5,integer,Repayment status in month t-5 (there is no PAY_1),Same codes as PAY_0
+PAY_6,integer,Repayment status in month t-6 (there is no PAY_1),Same codes as PAY_0
+BILL_AMT1,integer,"Bill statement amount in month t-1, NT dollars; negative means a credit balance",Integer; may be negative
+BILL_AMT2,integer,"Bill statement amount in month t-2, NT dollars; negative means a credit balance",Integer; may be negative
+BILL_AMT3,integer,"Bill statement amount in month t-3, NT dollars; negative means a credit balance",Integer; may be negative
+BILL_AMT4,integer,"Bill statement amount in month t-4, NT dollars; negative means a credit balance",Integer; may be negative
+BILL_AMT5,integer,"Bill statement amount in month t-5, NT dollars; negative means a credit balance",Integer; may be negative
+BILL_AMT6,integer,"Bill statement amount in month t-6, NT dollars; negative means a credit balance",Integer; may be negative
+PAY_AMT1,integer,"Amount paid in month t-1, NT dollars",0 or more
+PAY_AMT2,integer,"Amount paid in month t-2, NT dollars",0 or more
+PAY_AMT3,integer,"Amount paid in month t-3, NT dollars",0 or more
+PAY_AMT4,integer,"Amount paid in month t-4, NT dollars",0 or more
+PAY_AMT5,integer,"Amount paid in month t-5, NT dollars",0 or more
+PAY_AMT6,integer,"Amount paid in month t-6, NT dollars",0 or more
+BAD_FLAG,integer,Target: default payment in the month after the observation month (source label: default payment next month),0 = no default; 1 = default
+SPLIT,string,"Sample assignment, frozen in the prepared file",DEV; HOLDOUT; OOT. OOT is a synthetic covariate-shift sample (see README)
+OBS_MONTH,string,"Observation month, YYYY-MM. Synthetic (see README)",2004-07 to 2005-06 for DEV and HOLDOUT; 2005-07 to 2005-09 for OOT

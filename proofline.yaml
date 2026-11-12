@@ -1,0 +1,15 @@
+# Proofline settings for this model repo. Hashed into the config that the independent validator approves at G1.
+version: 1
+name: Demo bank model repo
+
+# First-choice model per agent role (fast, strong, coder, validator). Leave out a role to keep Proofline's default.
+llm: {}
+
+# Threshold overrides. Each one names the model risk decision that approved it.
+# Example:
+#   - metric: <key under metrics: in config/thresholds.yaml>
+#     green: ">= 0.45"
+#     amber: ">= 0.35"
+#     decision: D-101
+#     reason: Retail credit committee sets a higher Gini bar for Tier 1 scorecards
+thresholds: []

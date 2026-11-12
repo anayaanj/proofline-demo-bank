@@ -1,0 +1,3 @@
+# Row-level ULB scores: ODbL share-alike and 12.8 MB, so not committed (spec 02 §6).
+# Its hash is in baseline/SHA256SUMS; RUNINFO.yaml has the command that regenerates it.
+baseline/scored.csv

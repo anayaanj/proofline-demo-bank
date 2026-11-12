@@ -1,0 +1,11 @@
+M1 baseline run: R emulation of code/m1_pd_scorecard.sas (provisional baseline, D-022)
+engine: R version 4.6.1 (2026-06-24)
+platform: aarch64-apple-darwin25.4.0
+input: m1_taiwan_prepared.csv (30000 rows, 27 columns)
+rows by SPLIT: DEV 18000, HOLDOUT 6000, OOT 6000
+model: binary logistic regression on 12 WoE inputs plus intercept; fitted on DEV (18000 rows used)
+convergence: converged=TRUE after 5 Fisher scoring iterations (epsilon 1e-12)
+-2 log L: intercept only 18266.6450, with covariates 15324.2565
+constants: OFFSET 487.1229 FACTOR 28.8539 CUTOFF 520 PMA_F 1.15
+decisions: APPROVE 19638, DECLINE 10362; OVR_CODE P01 1242, V01 56
+files: coefficients.csv scored.csv score_bands.csv ifrs9_pd_feed.csv

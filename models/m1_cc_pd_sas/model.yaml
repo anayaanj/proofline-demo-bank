@@ -1,0 +1,36 @@
+schema_version: 1
+id: m1
+inventory_id: CR-PD-0001
+name: Credit card behavioural PD scorecard
+provenance: {origin: team_authored, dataset: uci_350, licence: CC-BY-4.0}   # origin: team_authored | exl_sample
+ingest:                                   # trusted technical facts; confirmed by a human at Gate 1
+  language: sas
+  entrypoint: code/m1_pd_scorecard.sas
+  code_files: [code/m1_pd_scorecard.sas, code/m1_woe_bins.sas]
+  run: {engine: sas_oda, mode: manual}    # manual: SAS OnDemand for Academics, see README.md
+  data:
+    - {role: model_input, path: data/prepared/m1_taiwan_prepared.csv, rows: 30000,
+       sha256: a97ac03f858d8d790927dd31c019ee04d391c5a6ee3d617501f348be5a1ae5b2}
+  data_dictionary: data_dictionary.csv
+  keys: {id: ID, split: SPLIT, time: OBS_MONTH}
+  target: {column: BAD_FLAG, event_value: 1, label: default next month}
+  docs: [docs/legacy_model_doc.md]
+  baseline:
+    dir: baseline
+    digest: 941dbee5a6bf5b2add2f030e6dfddbf9a680251f4dae91559011eac61d8d51ae  # sha256 of baseline/SHA256SUMS, set by scripts/baseline.py freeze
+    files: {coefficients: coefficients.csv, scored: scored.csv, bins: bins.csv, scaling: scaling.json, bands: score_bands.csv}
+    columns: {id: ID, split: SPLIT, linear_predictor: XB, p_event: PD, p_event_final: PD_ADJ,
+              score: SCORE, band: BAND, decision: DECISION, override: OVR_CODE, woe_prefix: W_}
+    decision_positive: APPROVE
+fairness:
+  protected: {SEX: sex, AGE: age, MARRIAGE: marriage_civil_partnership, EDUCATION: socioeconomic_proxy}
+  join_key: ID
+  min_cell: 20
+claimed:                                  # copied from the old inventory: UNTRUSTED, may be stale
+  owner: J. Murphy, Retail Credit Risk Analytics
+  intended_use: Credit-line management for existing credit card accounts
+  model_type: Logistic regression scorecard (WoE)
+  tier: 3
+  status: production
+  last_validated: 2019-03-14
+  next_review: 2020-03-31

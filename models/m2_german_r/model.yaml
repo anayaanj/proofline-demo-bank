@@ -1,0 +1,36 @@
+schema_version: 1
+id: m2
+inventory_id: CR-APP-0002
+name: Private loan application scorecard
+provenance: {origin: team_authored, dataset: uci_573, licence: CC-BY-4.0}
+ingest:                                   # trusted technical facts; confirmed by a human at Gate 1
+  language: r
+  entrypoint: code/m2_app_scorecard.R
+  code_files: [code/m2_app_scorecard.R]
+  run: {engine: rscript, mode: auto}      # Rscript code/m2_app_scorecard.R <data> <out_dir>
+  data:
+    - {role: model_input, path: data/prepared/m2_south_german_prepared.csv, rows: 1000,
+       sha256: c30ea5742cb2741ffb38a585cb9929614719b5dc2bbd1927811f677a05f6c872}
+  data_dictionary: data_dictionary.csv
+  keys: {id: app_id, split: split, time: app_month}
+  target: {column: bad, event_value: 1, label: loan not repaid as agreed}
+  docs: [docs/legacy_model_doc.md]
+  baseline:
+    dir: baseline
+    digest: 78e366ed924695536f9b0b765c3b28f3a70af8d7098fa725d4db1d969393cb8f   # sha256 of baseline/SHA256SUMS
+    files: {coefficients: coefficients.csv, scored: scored.csv, bins: bins.csv, scaling: scaling.json}
+    columns: {id: app_id, split: split, linear_predictor: lp, p_event: pd, p_event_final: pd,
+              score: score, decision: decision, woe_prefix: w_}
+    decision_positive: ACCEPT
+fairness:
+  protected: {alter: age, famges: sex_marital_status_combined, gastarb: nationality}
+  join_key: app_id
+  min_cell: 20
+claimed:                                  # copied from the old inventory: UNTRUSTED, may be stale
+  owner: K. Schmidt, Retail Credit Risk Analytics
+  intended_use: Accept or decline new applications for unsecured private loans
+  model_type: Logistic regression scorecard (WoE)
+  tier: 2
+  status: production
+  last_validated: 2017-02-28
+  next_review: 2018-06-30

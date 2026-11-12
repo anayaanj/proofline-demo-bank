@@ -1,0 +1,28 @@
+# RUNINFO.yaml - run metadata for this frozen baseline (docs/specs/02-data-and-legacy-models.md §4.5).
+# Outputs are the legacy code's own; nothing here is a check of the model.
+model_id: m2
+engine: rscript
+engine_version: R version 4.6.1 (2026-06-24)
+packages: base R only (stats::glm)
+platform: arm64 macOS 26.6.2
+run_at: '2026-11-05T03:01:23Z'
+run_by: Proofline team (build agent m2m3-legacy, Claude Code)
+command: Rscript legacy_models/m2_german_r/code/m2_app_scorecard.R data/prepared/m2_south_german_prepared.csv legacy_models/m2_german_r/baseline > legacy_models/m2_german_r/baseline/logs/m2_run.log 2>&1
+inputs:
+- path: data/prepared/m2_south_german_prepared.csv
+  sha256: c30ea5742cb2741ffb38a585cb9929614719b5dc2bbd1927811f677a05f6c872
+  rows: 1000
+code:
+- path: legacy_models/m2_german_r/code/m2_app_scorecard.R
+  sha256: 505cf694b49dc47f7e4eb8c3d63d2ac82f4d3b6d20912cecaef5107b4d40555c
+outputs:
+  coefficients.csv: 11
+  bins.csv: 38
+  scored.csv: 1000
+  scaling.json: null
+  logs/m2_run.log: null
+row_counts:
+  scored_by_split:
+    DEV: 700
+    HOLDOUT: 300
+not_committed: []
