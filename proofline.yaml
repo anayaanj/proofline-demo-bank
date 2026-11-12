@@ -13,3 +13,12 @@ llm: {}
 #     decision: D-101
 #     reason: Retail credit committee sets a higher Gini bar for Tier 1 scorecards
 thresholds: []
+
+# Revalidation policy: months between validations, by tier. Demo values; each bank sets its own.
+revalidation_months: {1: 12, 2: 24, 3: 36}
+due_soon_days: 90
+
+# Bank rules applied by code. They can only make a severity stricter. Example:
+#   rules:
+#     drift_severity: {variables: High}
+rules: {}
