@@ -1,0 +1,21 @@
+# Demo model: manifest only, no code (scripts/demo_portfolio.py in proofline)
+schema_version: 1
+id: m5
+inventory_id: CR-PD-0005
+name: SME probability of default
+provenance:
+  origin: team_authored
+  dataset: demo
+  licence: CC-BY-4.0
+ingest:
+  language: r
+  entrypoint: code/model
+  data:
+  - role: model_input
+    path: data/prepared/none.csv
+  target:
+    column: TARGET
+claimed:
+  model_type: Logistic regression scorecard (WoE)
+  tier: 2
+  intended_use: Origination and annual review of small business lending

@@ -1,0 +1,21 @@
+# Demo model: manifest only, no code (scripts/demo_portfolio.py in proofline)
+schema_version: 1
+id: m4
+inventory_id: CR-LGD-0004
+name: Residential mortgage LGD model
+provenance:
+  origin: team_authored
+  dataset: demo
+  licence: CC-BY-4.0
+ingest:
+  language: sas
+  entrypoint: code/model
+  data:
+  - role: model_input
+    path: data/prepared/none.csv
+  target:
+    column: TARGET
+claimed:
+  model_type: Two-stage regression (cure and severity)
+  tier: 1
+  intended_use: Loss given default for the residential mortgage book

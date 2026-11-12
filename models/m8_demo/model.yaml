@@ -1,0 +1,21 @@
+# Demo model: manifest only, no code (scripts/demo_portfolio.py in proofline)
+schema_version: 1
+id: m8
+inventory_id: FR-APP-0008
+name: Card application fraud score
+provenance:
+  origin: team_authored
+  dataset: demo
+  licence: CC-BY-4.0
+ingest:
+  language: python
+  entrypoint: code/model
+  data:
+  - role: model_input
+    path: data/prepared/none.csv
+  target:
+    column: TARGET
+claimed:
+  model_type: Gradient boosting classifier
+  tier: 1
+  intended_use: Fraud screening of new credit card applications
